@@ -12,7 +12,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
-    Route::get('products', [ProductController::class,'index'])->name('products.index');
+    Route::get('/products', [ProductController::class,'index'])->name('products.index');
+    Route::post('/products',[ProductController::class,'store'])->name('produts.store');
     Route::get('products/create', [ProductController::class,'create'])->name('products.create');
 });
 
