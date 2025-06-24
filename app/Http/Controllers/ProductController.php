@@ -9,7 +9,8 @@ use Inertia\Inertia;
 class ProductController extends Controller
 {
     public function index(){
-        return Inertia::render('Products/Index');
+        $products = Product::all();
+        return Inertia::render('Products/Index',compact('products'));
     }
 
     public function create(){
