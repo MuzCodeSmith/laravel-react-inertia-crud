@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Pencil, Trash2 } from "lucide-react";
 
 export interface product {
   id?: number,
@@ -27,6 +27,24 @@ export const productColumns: ColumnDef<product>[] = [
     },
   },
   { accessorKey: "description", header: "Description" },
-  { accessorKey: "action", header: "Action" },
+  {
+    id: "actions",
+    header: "Action",
+    cell: ({ row }) => {
+      const product = row.original
+      return (
+        <div className='flex gap-2'>
+          <Button variant="outline" size="sm">
+            <Pencil className='h-4 v-4 mr-1'></Pencil>
+            Edit
+          </Button>
+          <Button variant="destructive" size="sm">
+            <Trash2 className='h-4 v-4 mr-1'></Trash2>
+            Delete
+          </Button>
+        </div>
+      )
+    }
+  },
 ];
 
