@@ -1,10 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import {Megaphone } from 'lucide-react';
 import { DataTable } from '@/components/ui/data-table';
-import { productColumns,product } from './columns/product-columns';
+import {product, getProductColumns } from './columns/product-columns';
 import { type BreadcrumbItem } from '@/types';
 
 interface PageProps {
@@ -18,9 +18,22 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Index() {
+
+  const { processing, delete: destroy } = useForm();
+
   const { flash, products = [] } = usePage<PageProps>().props;
 
-  console.log(products)
+  const handleEdit = (product: product) => {
+    console.log("Editing", product)
+  }
+
+  const handleDelete = (id?: number, name?:string) => {
+    if(confirm(`do yo really want to delete this product:${id}, ${name}`)){
+      destroy(route('produts.destroy',id));
+    }
+  }
+
+  const columns = getProductColumns(handleEdit, handleDelete)
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
@@ -39,7 +52,7 @@ export default function Index() {
           </Alert>
         )}
 
-        <DataTable columns={productColumns} data={products} />
+        <DataTable columns={columns} data={products} />
       </div>
     </AppLayout>
   );
